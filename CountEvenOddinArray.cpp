@@ -40,3 +40,4 @@ int main(){
     cout<<"Even: "<<answer.even_counter<<endl;
     cout<<"Odd: "<<answer.odd_counter<<endl;
 }
+
