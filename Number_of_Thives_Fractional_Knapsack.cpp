@@ -1,6 +1,4 @@
 #include<iostream>
-#include<algorithm>
-
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -9,19 +7,29 @@ struct Item
     int item_number;
     double weight;
     double value;
+    double value_weight_ratio;
 };
 
-typedef struct Item Item;
+
 
 bool compare(Item &left, Item &right)
 {
-    if(left.value * right.weight > left.weight * right.value) return true;
+   
+    if(left.value_weight_ratio>right.value_weight_ratio) return true;
     else return false;
 }
 
 
 double fractional_knapsack(Item items[], int n, int capacity)
 {
+     
+    /// step 1: Find the value-weight ratio for each item
+
+      for(int i=0; i<n; i++)
+    {
+        items[i].value_weight_ratio = items[i].value/items[i].weight;
+    }
+
 
     /// step 2: Sort the items based on value-weight ratio (descending order)
     sort(items, items+n, compare);
@@ -48,9 +56,9 @@ double fractional_knapsack(Item items[], int n, int capacity)
         }
         else
         {
-            profit += (capacity * (items[i].value/items[i].weight));
+            profit += (capacity * items[i].value_weight_ratio);
 
-            items[i].value -= (capacity * (items[i].value/items[i].weight));
+            items[i].value -= (capacity *items[i].value_weight_ratio );
 
             items[i].weight -= capacity;
 
