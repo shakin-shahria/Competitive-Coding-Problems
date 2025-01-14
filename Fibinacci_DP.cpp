@@ -2,9 +2,7 @@
 #define MAX 100
 #define NOT_SET -1LL
 using namespace std;
-
 long long int cache[MAX+7];
-
 long long int fib(int n)
 {
     if(n==0 || n==1) return n;
@@ -18,8 +16,6 @@ long long int fib(int n)
         return result;
     }
 }
-
-
 int main()
 {
     memset(cache, NOT_SET, sizeof(cache));
