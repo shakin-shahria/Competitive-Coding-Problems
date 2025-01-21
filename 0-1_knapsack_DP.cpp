@@ -3,8 +3,6 @@
 #define NOT_SET -1
 using namespace std;
 
-//const int INF = 0x7f7f7f7f;
-
 int cache[MAX + 1][MAX + 1]; // DP cache for storing subproblem results
 
 struct Item {
@@ -45,11 +43,11 @@ void find_picked_items(int n, int capacity, Item items[]) {
 
 
 int main() {
-    // Number of items and knapsack capacity
+    
     int n = 6;
     int capacity = 50;
 
-    // Items array (item_number, weight, value)
+    
     Item items[n] = {
         {1, 10, 60},
         {2, 20, 100},
@@ -59,16 +57,16 @@ int main() {
         {6, 60, 150}
     };
 
-    // Initialize cache with NOT_SET
+    
     memset(cache, NOT_SET, sizeof(cache));
 
-    // Solve the knapsack problem
+    
     int max_profit = knapsack(n - 1, capacity, items);
 
-    // Output the results
+    
     cout << "Total Profit: " << max_profit << endl;
 
-    // Find and display the picked items
+    
     find_picked_items(n, capacity, items);
 
     return 0;
