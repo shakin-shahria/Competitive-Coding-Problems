@@ -1,8 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
-
 int main()
 {
     int V = 5;
@@ -12,12 +10,5 @@ int main()
     Graph[2] = {3};
     Graph[3] = {4};
     Graph[4] = {2};
-
-
-
-
-
-
-
     return 0;
 }

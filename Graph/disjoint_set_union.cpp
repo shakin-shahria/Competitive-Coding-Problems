@@ -24,7 +24,7 @@ struct DSU
     int find_(int x)
     {
         if(parent[x] == x) return x;
-        else return parent[x] = find_(parent[x]);
+        else return parent[x] = find_(parent[x]); // the recursive call  
     }
     bool union_(int u, int v)
     {

@@ -82,6 +82,7 @@ int main()
         {3, 4, 7},
     };
 
+// sort edges
     DSU *dsu = new DSU(V);
     sort(edges, edges+E, compare);
 
