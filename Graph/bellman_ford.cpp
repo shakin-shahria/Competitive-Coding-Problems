@@ -1,83 +1,103 @@
+
 #include<bits/stdc++.h>
 using namespace std;
 
-struct Pair {
-    int v;       // Destination vertex
-    int weight;  // Weight of the edge
+const int INF = 0x7f7f7f7f;
+
+struct Edge
+{
+    int u;
+    int v;
+    int cost;
 };
 
-void bellmanFord(vector<Pair> adjacencyList[], int V, int source) {
-    const int INF = 0x7F7F7F7F;
-    vector<int> distance(V, INF); // Initialize distances to all nodes as infinity
-    vector<int> parent(V, -1);    // To store the shortest path tree
+void bellman_Ford(Edge edges[], int E, int V, int source)
+{
+    int d[V];
+    int parent[V];
+    for(int i=0; i<V; i++)
+    {
+        d[i] = INF;
+        parent[i] = i;
+    }
 
-    distance[source] = 0; // Distance to source is 0
+    d[source] = 0;
 
-    // Relax edges up to (V - 1) times
-    for (int i = 0; i < V - 1; i++) {
-        for (int u = 0; u < V; u++) {
-            for (Pair p : adjacencyList[u]) {
-                int v = p.v;
-                int weight = p.weight;
-                if (distance[u] != INF && distance[u] + weight < distance[v]) {
-                    distance[v] = distance[u] + weight;
-                    parent[v] = u;
-                }
+    bool found_shortest_path = false;
+
+    for(int i=1; i<=V-1; i++)
+    {
+        cout << "Iteration " << i << endl;
+        bool update_hoyeche = false;
+        for(int j=0; j<E; j++)
+        {
+            Edge edge = edges[j];
+            cout << edge.u << " --> " << edge.v << ":\n";
+            if(d[edge.u]+edge.cost<d[edge.v])
+            {
+                cout << d[edge.u] << " + " << edge.cost << " < " << d[edge.v] << " : True" << endl;
+                update_hoyeche = true;
+                d[edge.v] = d[edge.u]+edge.cost;
+                parent[edge.v] = edge.u;
             }
+            else
+            {
+                cout << d[edge.u] << " + " << edge.cost << " < " << d[edge.v] << " : False" << endl;
+            }
+        }
+        cout << endl << endl;
+        if(update_hoyeche==false)
+        {
+            found_shortest_path = true;
+            break;
         }
     }
 
-    // Check for negative-weight cycles
-    for (int u = 0; u < V; u++) {
-        for (Pair p : adjacencyList[u]) {
-            int v = p.v;
-            int weight = p.weight;
-            if (distance[u] != INF && distance[u] + weight < distance[v]) {
-                cout << "Graph contains a negative-weight cycle" << endl;
+    if(found_shortest_path==false)
+    {
+        cout << "Iteration " << V << endl;
+        bool update_hoyeche = false;
+        for(int j=0; j<E; j++)
+        {
+            Edge edge = edges[j];
+            cout << edge.u << " --> " << edge.v << ":\n";
+
+            if(d[edge.u]+edge.cost<d[edge.v])
+            {
+                cout << d[edge.u] << " + " << edge.cost << " < " << d[edge.v] << " : True" << endl;
+                cout << "Negative Cycle Exist!" << endl;
                 return;
             }
+            else
+            {
+                cout << d[edge.u] << " + " << edge.cost << " < " << d[edge.v] << " : False" << endl;
+
+            }
         }
     }
 
-    // Print the distances
-    cout << "Distances: ";
-    for (int i = 0; i < V; i++) {
-        cout << distance[i] << " ";
+    for(int i=0; i<V; i++)
+    {
+        cout << source << " --> " << i << " : " << d[i] << endl;
     }
-    cout << endl;
 
-    // Print shortest paths
-    cout << "Paths: " << endl;
-    for (int i = 0; i < V; i++) {
-        if (distance[i] == INF) continue;
-        cout << "Path to " << i << ": ";
-        int node = i;
-        stack<int> path;
-        while (node != -1) {
-            path.push(node);
-            node = parent[node];
-        }
-        while (!path.empty()) {
-            cout << path.top() << " ";
-            path.pop();
-        }
-        cout << endl;
-    }
 }
 
-int main() {
-    int V = 4; // Number of vertices
-    vector<Pair> adjacencyList[V];
 
-    // Graph edges and their respective costs (including negative edge values)
-    adjacencyList[0] = {{1, 5}, {2, -2}};  // Node 0 connects to 1 with weight 5, and to 2 with weight -2
-    adjacencyList[1] = {{2, -1}, {3, 2}};  // Node 1 connects to 2 with weight -1, and to 3 with weight 2
-    adjacencyList[2] = {{3, 1}};           // Node 2 connects to 3 with weight 1
-    adjacencyList[3] = {{0, 2}};           // Node 3 connects to 0 with weight 2
+int main()
+{
+    int E = 3;
+    int V = 3;
+
+    Edge edges[E] = {
+    {0, 1, 5},
+    {2, 0, -2},
+    {1, 2, -4}
+    };
+
+    bellman_Ford(edges, E, V, 0);
 
 
-    int source = 0; // Source node for the Bellman-Ford algorithm
-    bellmanFord(adjacencyList, V, source);
 
     return 0;
 }

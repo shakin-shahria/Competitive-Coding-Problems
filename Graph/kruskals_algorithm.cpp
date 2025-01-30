@@ -96,7 +96,7 @@ int main()
 
         if(result==true)
         {
-            cout << edge.u << " " << edge.v << " " << edge.w << endl;
+            cout << edge.u << "-> " << edge.v << "= " << edge.w << endl;
 
             cost += edge.w;
         }
